@@ -60,5 +60,8 @@ Use the load testing script `load.js` to evaluate the system's performance under
 ## Kibana
 You can also use kibana to visualize some important data from your logs on `http://localhost:5601`.
 
+## Note to consider
+I had to bump docker resource usage on my local PC to use 26GB RAM. And that would only allow you to test with around 400 log requests every 10 seconds... pains of BIG-ish DATA!
+
 ## Authors
 Developed by **Abed Nahouli**.
