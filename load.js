@@ -12,8 +12,8 @@ const actions = [
 ];
 
 const generateRandomLog = () => {
-    const userId = `user_${Math.floor(Math.random() * 50)}`;
-    const productId = `product_${Math.floor(Math.random() * 20)}`;
+    const userId = `user_${Math.floor(Math.random() * 1000)}`;
+    const productId = `product_${Math.floor(Math.random() * 200)}`;
     const action = actions[Math.floor(Math.random() * actions.length)];
     const timestamp = new Date().toISOString();
 
@@ -44,16 +44,37 @@ const sendLogToElasticsearch = async (log) => {
     }
 };
 
+const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 const runLoadTest = async () => {
     console.time('Load Test Duration'); // Start timing
-    const promises = [];
-    for (let i = 0; i < 1000; i++) {
-        const log = generateRandomLog();
 
-        promises.push(sendLogToElasticsearch(log));
-    }
-    await Promise.all(promises);
-    console.timeEnd('Load Test Duration'); // End timing and log the duration
+    // Function to run the load test
+    const sendBatchRequests = async () => {
+        const numRequests = getRandomInt(200, 500);
+        const batch = [];
+
+        for (let i = 0; i < numRequests; i++) {
+            const log = generateRandomLog();
+            batch.push(sendLogToElasticsearch(log));
+        }
+
+        await Promise.all(batch);
+        console.log(`Sent ${numRequests} requests`);
+    };
+
+    // Run the load test in intervals of 30 seconds
+    const interval = setInterval(async () => {
+        await sendBatchRequests();
+    }, 10000);
+
+    // Stop the load test after a certain duration (e.g., 10 minutes)
+    setTimeout(() => {
+        clearInterval(interval);
+        console.timeEnd('Load Test Duration'); // End timing and log the duration
+    }, 600000); // 10 minutes = 600,000 milliseconds
 };
 
 runLoadTest();
