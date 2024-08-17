@@ -50,9 +50,9 @@ To run the load testing script:
 ```
 This will generate random user actions and send logs to Elasticsearch at regular intervals for a duration of 10 minutes, simulating a big data environment.
 
-## Testing and Debugging
+## Docker Main endpoints Setup
 - **Elasticsearch:** Available at `http://localhost:9200`.
-- **Kafka:** Kafka broker runs on `localhost:9092`.
+- **Kafka:** Kafka broker runs on `http://localhost:9092`.
 
 ## Testing and Debugging
 Use the load testing script `load.js` to evaluate the system's performance under big data workloads.
