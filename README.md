@@ -55,9 +55,10 @@ This will generate random user actions and send logs to Elasticsearch at regular
 - **Kafka:** Kafka broker runs on `http://localhost:9092`.
 
 ## Testing and Debugging
-Use the load testing script `load.js` to evaluate the system's performance under big data workloads.
+Use the load testing script `load.js` to evaluate the system's performance under big data workloads. Logs from Kafka and Elasticsearch can be monitored to ensure proper data flow.
 
-Logs from Kafka and Elasticsearch can be monitored to ensure proper data flow.
+## Kibana
+You can also use kibana to visualize some important data from your logs on `http://localhost:5601`.
 
 ## Authors
 Developed by **Abed Nahouli**.
