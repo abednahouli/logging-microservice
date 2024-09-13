@@ -1,17 +1,13 @@
 const express = require('express');
-const { Client } = require('@elastic/elasticsearch');
 const { Kafka } = require('kafkajs');
 const app = express();
 
 app.use(express.json());
 
-// Elasticsearch client setup
-const esClient = new Client({ node: 'http://elasticsearch:9200' });
-
 // Kafka setup
 const kafka = new Kafka({
     clientId: 'log-service',
-    brokers: ['kafka:9092'],
+    brokers: ['localhost:9092'],
 });
 
 const producer = kafka.producer();
@@ -28,13 +24,7 @@ const runKafkaWithRetry = async (retries = 5, delay = 2000) => {
                 eachMessage: async ({ topic, partition, message }) => {
                     const log = JSON.parse(message.value.toString());
 
-                    // Store the log in Elasticsearch
-                    await esClient.index({
-                        index: 'logs',
-                        document: log,
-                    });
-
-                    console.log('Log indexed to Elasticsearch:', log);
+                    console.log('Log:', log);
                 },
             });
 
